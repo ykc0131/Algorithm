@@ -5,11 +5,12 @@
 using namespace std;
 
 int main() {
-	int N, c;
+	int N;
+	long int c;
 	cin >> N;
 
-	vector<int> d(N - 1, 0);
-	vector<pair<int, int>> city;
+	vector<long int> d(N - 1, 0);
+	vector<pair<int, long int>> city;
 	for (int i = 0; i < N - 1; i++)
 		cin >> d[i];
 
@@ -18,10 +19,9 @@ int main() {
 		city.push_back(make_pair(i, c));
 	}
 
-	int cost = city[0].second;
-	int result = 0;
+	long int cost = city[0].second, result = 0;
 	for (int i = 0; i < N - 1; i++) {
-		int each_cost = city[i].second;
+		long int each_cost = city[i].second;
 		cost = each_cost < cost ? each_cost : cost;
 		result += cost * d[i];
 	}
