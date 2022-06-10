@@ -19,15 +19,18 @@ int main() {
 			vv.push_back(v[i]);
 			result = 0;
 		}
+
+		if (i == N - 1 && result != 0)
+			vv.push_back(result);
 	}
 
+	result = 0;
 	for (int i = 0; i < vv.size(); i++) {
-		if (result + vv[i] < 0)
-			result = 0;
 		result += vv[i];
 		max = max > result ? max : result;
+		if (result < 0)
+			result = 0;
 	}
-
 	cout << max;
 
 	return 0;
