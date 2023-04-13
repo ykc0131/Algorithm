@@ -12,6 +12,7 @@ int main() {
         q.push(i);
     }
 
+    //방법-1
     int cnt=0;
     while(!q.empty()){
         if(q.size()==1)
@@ -21,9 +22,21 @@ int main() {
             q.push(value);
         cnt=(cnt+1)%2;
     }
-
     cout << q.front()<< endl;
     q.pop();
+
+    //방법-2
+    //시간 1/2 줄이기
+    int value;
+    while(!q.empty()){
+        value = q.front();q.pop();
+        if(q.empty())
+            break;
+        q.push(q.front());
+        q.pop();
+    }
+
+    cout << value << endl;
 
     return 0;
 }
