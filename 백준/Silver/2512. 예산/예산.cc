@@ -1,46 +1,48 @@
 //
-// Created by yooki on 2024/01/24.
+// Created by yooki on 2024/01/25.
 //
+//이진탐색
 #include <iostream>
 #include <vector>
-#include <queue>
+#include <algorithm>
 
 using namespace std;
 
-long long N,M,avgValue;
-priority_queue<long long,vector<long long>,greater<long long>> pq;
+int N,M;
+vector<int> vec;
 
 void init(){
     cin >> N;
+    vec.clear();
+    vec.resize(N,0);
 
     for(int i=0; i<N; i++){
-        long long n;
-        cin >> n;
-        pq.push(n);
+        cin >> vec[i];
     }
-
+    sort(vec.begin(), vec.end());
     cin >> M;
-    avgValue = M/N;
 }
 
 void solve(){
-    long long result = 0, preN = 0;
-    while(!pq.empty()){
-        long long curN = pq.top();
-        preN = curN;
-        if(curN > avgValue && result+curN*pq.size() >= M){
-            M-=result;
-            M/=pq.size();
-            cout << M << "\n";
-            return;
-        }
-        else
-            result+=curN;
-        pq.pop();
-    }
-    cout << preN << "\n";
-}
+    int start=0, end=vec[N-1], result, sum;
+    while(start<=end){
+        sum=0;
+        int mid = (start+end)/2;
 
+        for(int i=0; i<N; i++){
+            sum+=min(vec[i],mid);
+        }
+
+        if(sum<=M){
+            result = mid;
+            start = mid+1;
+        }
+        else{
+            end = mid-1;
+        }
+    }
+    cout << result << "\n";
+}
 
 int main(){
     init();
