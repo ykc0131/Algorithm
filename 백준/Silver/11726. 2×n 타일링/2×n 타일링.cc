@@ -15,7 +15,7 @@ void init(){
 
 void solve(){
     for(int i=3; i<n+1; i++){
-        dp[i] = (dp[i-1]%10007 + dp[i-2]%10007)%10007;
+        dp[i] = (dp[i-1] + dp[i-2])%10007;
     }
     cout << dp[n] << "\n";
 }
