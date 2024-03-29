@@ -3,18 +3,15 @@
 //
 #include <iostream>
 #include <vector>
-#include <queue>
 #include <algorithm>
 #include <string>
 
 using namespace std;
 
 int L,C;
-vector<int> moeum;
-vector<int> jaeum;
-vector<pair<int,int>> inputs;
+vector<pair<char,int>> inputs;
 
-bool cmp(pair<int,int> a, pair<int,int> b){
+bool cmp(pair<char,int> a, pair<char,int> b){
     return a.first < b.first;
 }
 
@@ -26,18 +23,12 @@ void init(){
         cin >> c;
 
         int mo = 0;
-        if(c=='a' || c=='e' || c=='i' || c=='o' || c=='u'){
+        if(c=='a' || c=='e' || c=='i' || c=='o' || c=='u')
             mo = 1;
-            moeum.push_back(c-'a');
-        }
-        else
-            jaeum.push_back(c-'a');
 
-        inputs.push_back({c-'a',mo});
+        inputs.push_back({c,mo});
     }
 
-    sort(moeum.begin(), moeum.end());
-    sort(jaeum.begin(), jaeum.end());
     sort(inputs.begin(), inputs.end(), cmp);
 }
 
@@ -54,10 +45,8 @@ void backtracking(int idx, int check, string s, int cnt){
         return;
 
     for(int i=idx; i<C; i++){
-        pair<int,int> cur = inputs[i];
-        char c = cur.first + 'a';
-
-        backtracking(i+1, check+cur.second, s+c, cnt+1);
+        pair<char,int> cur = inputs[i];
+        backtracking(i+1, check+cur.second, s+cur.first, cnt+1);
     }
 }
 
