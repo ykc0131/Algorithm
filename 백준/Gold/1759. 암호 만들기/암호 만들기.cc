@@ -11,10 +11,6 @@ using namespace std;
 int L,C;
 vector<pair<char,int>> inputs;
 
-bool cmp(pair<char,int> a, pair<char,int> b){
-    return a.first < b.first;
-}
-
 void init(){
     cin >> L >> C;
 
@@ -29,7 +25,7 @@ void init(){
         inputs.push_back({c,mo});
     }
 
-    sort(inputs.begin(), inputs.end(), cmp);
+    sort(inputs.begin(), inputs.end());
 }
 
 vector<string> result;
