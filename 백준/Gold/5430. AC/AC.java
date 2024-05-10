@@ -1,4 +1,3 @@
-
 import java.util.*;
 import java.lang.*;
 import java.io.*;
@@ -39,23 +38,26 @@ public class Main {
                 }
             }
         }
-
-        bw.write("[");
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
         if(r >= l){
             if(di)
                 for(int i=l; i<=r; i++){
-                    bw.write(list.get(i));
+                    sb.append(list.get(i));
                     if(i!=r)
-                        bw.write(",");
+                        sb.append(",");
                 }
             else
                 for(int i=r; i>=l; i--){
-                    bw.write(list.get(i));
+                     sb.append(list.get(i));
                     if(i!=l)
-                        bw.write(",");
+                         sb.append(",");
                 }
         }
-        bw.write("]\n");
+        sb.append("]\n");
+
+        bw.write(sb.toString());
     }
 
     public static void main(String[] args) throws Exception {
