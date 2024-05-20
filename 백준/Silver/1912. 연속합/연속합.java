@@ -18,9 +18,9 @@ public class Main {
     }
 
     static void solve(){
-        long value=arr[0], result = arr[0];
+        int value=arr[0], result = arr[0];
         for(int i=1; i<n; i++){
-            long cur = arr[i];
+            int cur = arr[i];
             if(value < 0)
                 value = cur;
             else 
