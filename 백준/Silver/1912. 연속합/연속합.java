@@ -21,10 +21,11 @@ public class Main {
         long value=arr[0], result = arr[0];
         for(int i=1; i<n; i++){
             long cur = arr[i];
-            if(cur < value+cur)
-                value += cur;
-            else
+            if(value < 0)
                 value = cur;
+            else 
+                value += cur;
+            
             result = Math.max(value, result);
         }
 
