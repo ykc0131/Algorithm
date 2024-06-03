@@ -17,14 +17,14 @@ public class Main {
         }
     }
 
-    static Map<String, Integer> result = new HashMap<>();
+    static Set<String> result = new HashSet<>();
     static int[] dy = {0,1,0,-1};
     static int[] dx = {1,0,-1,0};
 
     static StringBuilder sb;
     static void backtracking(int y, int x, int cnt){
         if(cnt==6){
-            result.put(sb.toString(),1);
+            result.add(sb.toString());
             return;
         }
 
@@ -48,7 +48,6 @@ public class Main {
                 backtracking(i, j, 0);
             }
         }
-
         System.out.println(result.size());
     }
 
