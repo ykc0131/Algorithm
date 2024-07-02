@@ -1,0 +1,20 @@
+-- 코드를 입력하세요
+WITH HIGHEST_VIEW AS (
+    SELECT 
+    *
+    FROM 
+        USED_GOODS_BOARD
+    ORDER BY VIEWS DESC
+    LIMIT 1
+)
+
+SELECT 
+    CONCAT('/home/grep/src/', BOARD_ID, '/', FILE_ID, FILE_NAME, FILE_EXT) AS FILE_PATH
+FROM 
+    HIGHEST_VIEW
+    JOIN 
+    USED_GOODS_FILE
+    USING(BOARD_ID)
+ORDER BY
+    FILE_ID DESC
+    
