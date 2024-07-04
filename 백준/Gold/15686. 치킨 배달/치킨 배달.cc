@@ -12,7 +12,7 @@ int N, M;
 vector<vector<int>> input;
 vector<pair<int,int>> chicken;
 vector<pair<int,int>> home;
-vector<vector<int>> vec;
+vector<vector<int>> dist;
 void init(){
     cin >> N >> M;
     input.resize(N,vector<int>(N,0));
@@ -21,16 +21,19 @@ void init(){
         for(int j=0; j<N; j++){
             cin >> input[i][j];
 
+            // 치킨집 인덱스 처리
             if(input[i][j]==2)
                 chicken.push_back(make_pair(i,j));
+            // 집 인덱스 처리
             else if(input[i][j]==1)
                 home.push_back(make_pair(i,j));
         }
     }
 
-    vec.resize(home.size());
+    dist.resize(home.size()); // 집 - 치킨집 '치킨 거리' 저장
 }
 
+// '치킨 거리' 미리 저장 하기
 void distance(){
     for(int i=0; i<home.size(); i++){
         pair<int,int> h = home[i];
@@ -38,33 +41,38 @@ void distance(){
             int _y = abs(h.first-c.first);
             int _x = abs(h.second - c.second);
 
-            vec[i].push_back(_y+_x);
+            dist[i].push_back(_y + _x);
         }
     }
 }
 
+int result = INF;
 void solve(){
     distance();
 
-    vector<int> order(chicken.size(),0);
+    // 치킨 집 M개 선택 하기
+    vector<int> select(chicken.size(),0);
     for(int i=0; i<M; i++){
-        order[i] = 1;
+        select[i] = 1;
     }
 
-    int result = INF;
     do{
-        int sumN = 0;
-        for(int i=0; i<vec.size(); i++){
+        int sumN = 0; // 도시의 치킨 거리
+        for(int i=0; i < dist.size(); i++){ // 모든 집에 대해서 반복문 돌리기
             int minN = INF;
-            for(int j=0; j<order.size(); j++){
-                if(order[j]==1)
-                    minN = min(minN, vec[i][j]);
+            
+            // 선택한 M개 치킨 집에 대해서 최소 거리 구하기
+            for(int j=0; j<select.size(); j++){
+                if(select[j]==1)
+                    minN = min(minN, dist[i][j]);
             }
+            
             sumN += minN;
         }
-        result = min(result, sumN);
+        
+        result = min(result, sumN); // 도시의 치킨 거리 최소 구하기
     }
-    while(prev_permutation(order.begin(), order.end()));
+    while(prev_permutation(select.begin(), select.end()));
 
     cout << result << "\n";
 }
