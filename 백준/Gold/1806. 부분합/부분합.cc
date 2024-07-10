@@ -1,45 +1,46 @@
 //
-// Created by yookim on 2024/07/10.
+// Created by yooki on 2024/07/10.
 //
 #include <iostream>
 #include <vector>
-#include <limits>
+#include <limits.h>
+
+#define INF INT_MAX
 
 using namespace std;
 
-long long N, S;
+long long N,S;
 vector<long long> vec;
 
 void init(){
     cin >> N >> S;
 
     vec.push_back(0);
-    for(int i = 1; i <= N; i++){
-        long long n;
+    for(int i=1; i<N+1; i++){
+        int n;
         cin >> n;
         vec.push_back(n);
-        vec[i] += vec[i - 1];
+        vec[i] += vec[i-1];
     }
 }
 
 void solve(){
-    long long l = 0, r = 0;
-    long long minL = numeric_limits<long long>::max();
+    long long l=1, r=1, minL=INF;
 
-    while(r <= N){
-        if(vec[r] - vec[l] >= S){
-            minL = min(minL, r - l);
-            l++;
-        } else {
-            r++;
-        }
-    }
-
-    if(minL == numeric_limits<long long>::max()){
+    if(vec[N]<S){
         cout << 0 << "\n";
-    } else {
-        cout << minL << "\n";
+        return;
     }
+
+    while(l <= r && r <= N ) {
+        if(vec[r] - vec[l-1] >= S) {
+            minL = min(minL, r - l + 1);
+            l++;
+        }
+        else
+            r++;
+    }
+    cout << minL << "\n";
 }
 
 int main(){
