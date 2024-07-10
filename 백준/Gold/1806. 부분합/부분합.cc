@@ -3,9 +3,8 @@
 //
 #include <iostream>
 #include <vector>
-#include <limits.h>
 
-#define INF INT_MAX
+#define INF 1000001
 
 using namespace std;
 
