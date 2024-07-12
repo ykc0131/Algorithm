@@ -3,20 +3,18 @@
 //
 #include <iostream>
 #include <vector>
-#include <string>
 #include <map>
-#define INIT "00000000000000000000"
 
 using namespace std;
 
 int N, M;
-vector<string> vec;
-map<string, int> m;
+vector<int> vec;
+map<int, int> m;
 void init(){
     cin >> N >> M;
 
     for(int i=0; i<N; i++){
-        vec.push_back(INIT);
+        vec.push_back(0);
     }
 }
 
@@ -30,15 +28,19 @@ void solve(){
             cin >> x;
 
         switch (cmd) {
-            case 1 :vec[train][x-1] = '1'; break;
-            case 2 : vec[train][x-1] = '0'; break;
-            case 3 : vec[train] = '0' + vec[train].substr(0,19); break;
-            case 4 : vec[train] = vec[train].substr(1,19) + '0'; break;
+            case 1 :vec[train] |= ( 1 <<  x ); break;
+            case 2 : vec[train] &= ~( 1 << x ); break;
+            case 3 : vec[train] = vec[train] << 1;
+                     vec[train] &= (( 1 << 21 ) - 1 );
+                     break;
+            case 4 : vec[train] = vec[train] >> 1;
+                     vec[train] &= ~1;
+                     break;
         }
     }
 
-    for(string s : vec){
-        m[s]=1;
+    for(int i : vec){
+        m[i]=1;
     }
 
     cout << m.size() << "\n";
