@@ -1,44 +1,48 @@
 //
-// Created by yooki on 2024/03/10.
+// Created by yooki on 2024/09/28.
 //
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
-int N,M;
+int N, S;
 vector<int> vec;
 void init(){
-    cin >> N >> M;
-    vec.resize(N,0);
+    cin >> N >> S;
+
     for(int i=0; i<N; i++){
-        cin >> vec[i];
+        int n;
+        cin >> n;
+        vec.push_back(n);
     }
 }
 
-int result=0, limit = 0;
-void backtracking(int idx, int cnt, int sum){
-    if(cnt==limit){
-        if(sum==M)
+int result = 0;
+void btr(int idx, long long num){
+    if(idx > N){
+        if(num==S)
             result++;
         return;
     }
 
-    for(int i=idx; i<N; i++)
-        backtracking(i+1 , cnt+1, sum+vec[i]);
+    if(num==S){
+        result++;
+    }
+
+    for(int i=idx; i<N; i++){
+        btr(i+1, num+vec[i]);
+    }
 }
 
 void solve(){
-    for(int i=1; i<N+1; i++){ //1의 개수.
-        limit = i;
-        backtracking(0,0,0);
+    for(int i=0; i<N; i++){
+        btr(i+1, vec[i]);
     }
     cout << result << "\n";
 }
 
 int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(0);
     init();
     solve();
     return 0;
