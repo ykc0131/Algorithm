@@ -1,26 +1,21 @@
--- 코드를 작성해주세요
 SELECT
-    FI.ID,
-    FNI.FISH_NAME,
-    FI.LENGTH
+    ID,
+    FISH_NAME,
+    LENGTH
 FROM
-    FISH_INFO AS FI
-    LEFT JOIN
-    FISH_NAME_INFO AS FNI
+    (SELECT
+        ID,
+        FISH_TYPE,
+        LENGTH,
+        RANK() OVER(PARTITION BY FISH_TYPE ORDER BY LENGTH DESC) AS NO
+     FROM FISH_INFO
+    ) FI
+    JOIN 
+    FISH_NAME_INFO
     USING(FISH_TYPE)
 WHERE
-    (FISH_TYPE, LENGTH) IN (SELECT 
-                                FISH_TYPE,
-                                MAX(LENGTH) AS LENGTH
-                            FROM 
-                                FISH_INFO
-                            WHERE
-                                LENGTH is not null
-                            GROUP BY
-                                FISH_TYPE)
-ORDER BY 
+    NO=1
+ORDER BY
     ID ASC
 
-    
 
-    
