@@ -21,24 +21,18 @@ void init(){
 int result = 0;
 void btr(int idx, long long num){
     if(idx > N){
-        if(num==S)
-            result++;
         return;
     }
 
-    if(num==S){
-        result++;
-    }
-
     for(int i=idx; i<N; i++){
+        if(num+vec[i]==S)
+            result++;
         btr(i+1, num+vec[i]);
     }
 }
 
 void solve(){
-    for(int i=0; i<N; i++){
-        btr(i+1, vec[i]);
-    }
+    btr(0,0);
     cout << result << "\n";
 }
 
