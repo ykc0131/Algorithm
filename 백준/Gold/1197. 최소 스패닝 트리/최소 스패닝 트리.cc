@@ -1,52 +1,49 @@
 //
-// Created by yooki on 2024/02/23.
+// Created by yooki on 2024/10/02.
 //
 #include <iostream>
 #include <vector>
-#include <algorithm>
 #include <tuple>
+#include <queue>
 
 using namespace std;
 
 int V,E;
-vector<tuple<int,int,int>> edges;
 vector<int> parent;
+struct cmp {
+    bool operator()(tuple<int,int,int> t1, tuple<int,int,int> t2){
+        return get<2>(t1) > get<2>(t2);
+    }
+};
 
-bool cmp(tuple<int,int,int> a, tuple<int,int,int> b){
-    return get<2>(a) < get<2>(b);
-}
-
+priority_queue<tuple<int,int,int>,vector<tuple<int,int,int>>, cmp> pq;
 void init(){
     cin >> V >> E;
-    edges.clear();
-    parent.clear();
-    parent.resize(V+1,0);
 
     for(int i=0; i<E; i++){
-        int u,v,cost;
-        cin >> u >> v >> cost;
-        edges.push_back({u,v,cost});
+        int n1,n2,cost;
+        cin >> n1 >> n2 >> cost;
+
+        pq.push(make_tuple(n1,n2,cost));
     }
 
-    //parent 배열 설정
-    for(int i=1; i<V+1; i++){
-        parent[i] = i;
+    parent.resize(V+1,0);
+    for(int i=0; i<V; i++){
+        parent[i+1] = i+1;
     }
-
-    sort(edges.begin(),edges.end(),cmp);
 }
 
 int findParent(int node){
-    if(parent[node]==node)
+    if(parent[node] == node)
         return node;
     return findParent(parent[node]);
 }
 
-void unionNode(int node1, int node2){
+void makeUnion(int node1, int node2){
     node1 = findParent(node1);
     node2 = findParent(node2);
 
-    if(node1<node2)
+    if(node1 < node2)
         parent[node2] = node1;
     else
         parent[node1] = node2;
@@ -55,25 +52,36 @@ void unionNode(int node1, int node2){
 bool isCycle(int node1, int node2){
     node1 = findParent(node1);
     node2 = findParent(node2);
+
     if(node1==node2)
         return true;
     return false;
 }
 
 void solve(){
-    long long result = 0;
-    for(int i=0; i<edges.size(); i++){
-        int node1 = get<0>(edges[i]);
-        int node2 = get<1>(edges[i]);
-        if(!isCycle(node1,node2)){
-            unionNode(node1,node2);
-            result += get<2>(edges[i]);
+    int cnt = 0, result = 0;
+    while(!pq.empty()){
+        tuple<int,int,int> t = pq.top(); pq.pop();
+        int n1 = get<0>(t), n2 =  get<1>(t);
+
+        if(!isCycle(n1,n2)){
+            makeUnion(n1,n2);
+            cnt+=1;
+            result += get<2>(t);
         }
+
+        if(cnt==V-1)
+            break;
     }
-    cout << result << endl;
+
+    cout << result << "\n";
 }
 
 int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie();
+    cout.tie();
+
     init();
     solve();
     return 0;
