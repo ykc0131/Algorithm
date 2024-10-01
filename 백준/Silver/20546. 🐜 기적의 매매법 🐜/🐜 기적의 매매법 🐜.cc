@@ -11,8 +11,6 @@ vector<int> input(14,0);
 void init(){
     cin >> N;
 
-    int cnt = 0;
-    int pre = 0;
     for(int i=0; i<14; i++){
         cin >> input[i];
     }
@@ -38,19 +36,16 @@ void solve(){
                 negaCnt = 0;
                 posiCnt++;
 
-                if(posiCnt==3){
+                if(posiCnt >= 3)
                     result.second += stock.second * cost;
-                    posiCnt = 0;
-                }
             }
             else if(input[i]-input[i-1] < 0 ){
                 posiCnt = 0;
                 negaCnt++;
 
-                if(negaCnt==3 && result.second >= cost){
+                if(negaCnt >= 3 && result.second >= cost){
                     stock.second = result.second / cost;
                     result.second %= cost;
-                    negaCnt = 0;
                 }
             }
             else {
