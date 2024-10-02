@@ -1,5 +1,4 @@
--- 코드를 입력하세요
-SELECT 
+SELECT
     ANIMAL_ID,
     NAME,
     SEX_UPON_INTAKE
