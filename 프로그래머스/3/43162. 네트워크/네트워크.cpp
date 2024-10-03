@@ -1,67 +1,52 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <queue>
+#include <map>
 
 using namespace std;
 
-int N;
-vector<vector<int>> vec;
-void input(vector<vector<int>> computers){
-    N = computers.size();
-    vec.clear();
-    vec.resize(N);
-    
+vector<int> parent;
+void init(int N){
+    parent.resize(N, 0);
     for(int i=0; i<N; i++){
-        for(int j=0; j<N; j++){
-            if(computers[i][j] == 1 && i!=j){
-                vec[i].push_back(j);
-                vec[j].push_back(i);
-            }
-        }
+        parent[i] = i;
     }
 }
 
-vector<int> visited;
-void clear(){
-    visited.clear();
-    visited.resize(N, false);
+int findParent(int node){
+    if(parent[node] == node)
+        return node;
+    return findParent(parent[node]);
 }
 
-void bfs(int n){
-    queue<int> q;
-    q.push(n);
+void makeUnion(int node1, int node2){
+    node1 = findParent(node1);
+    node2 = findParent(node2);
     
-    while(!q.empty()){
-        int cur = q.front(); q.pop();
-        
-        if(visited[cur])
-            continue;
-        visited[cur] = true;
-        
-        for(auto v : vec[cur]){
-            if(!visited[v]){
-                q.push(v);
-            }
-        }
-        
-    }
-}
-
-int cnt=0;
-void solve(){
-    clear();
-    for(int i=0; i<N; i++){
-        if(!visited[i]){
-            bfs(i);
-            cnt++;
-        }
-    }
+    if(node1 < node2)
+        parent[node2] = node1;
+    else
+        parent[node1] = node2;
 }
 
 int solution(int n, vector<vector<int>> computers) {
-    input(computers);
-    solve();
-
-    return cnt;
+    int size = computers.size();
+    init(size);
+    
+    for(int i=0; i<size; i++){
+        for(int j=0; j<size; j++){
+            if(computers[i][j]==1){
+                makeUnion(i,j);
+            }
+        }
+    }
+    
+    
+    map<int,int> m;
+    for(int i=0; i<size; i++){
+        parent[i] = findParent(i);
+        m[parent[i]] = 1;
+    }
+    
+    return m.size();
 }
